@@ -147,6 +147,8 @@ then
   if source bin/dot | while read -r data; do info "$data"; done
   then
     success "dependencies installed"
+    # Set macOS defaults
+    $DOTFILES_ROOT/macos/set-defaults.sh
     $DOTFILES_ROOT/macos/update.sh
   else
     fail "error installing dependencies"

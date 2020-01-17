@@ -12,6 +12,8 @@ export PROJECTS=~/Dev
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="agnoster"
 
+DEFAULT_USER=$(whoami)
+
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
@@ -20,6 +22,7 @@ ZSH_THEME="agnoster"
 plugins=(
   git
   zsh-syntax-highlighting
+  zsh-autosuggestions
 )
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
@@ -66,3 +69,6 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
+
+export ZSH=$HOME/.dotfiles/.oh-my-zsh
+source $ZSH/oh-my-zsh.sh

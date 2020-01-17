@@ -1,4 +1,5 @@
 autoload colors && colors
+# This file is for the ones who don't want to use oh-my-zsh prompt
 # cheers, @ehrenmurdick
 # http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
 

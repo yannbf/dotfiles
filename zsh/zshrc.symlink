@@ -1,7 +1,6 @@
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
-. $ZSH/bin/z
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Dev
@@ -20,6 +19,7 @@ DEFAULT_USER=$(whoami)
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  z
   git
   zsh-syntax-highlighting
   zsh-autosuggestions

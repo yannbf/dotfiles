@@ -47,13 +47,15 @@ There's a few special files in the hierarchy.
 
 ## install
 
+If you come from a fresh mac install, run this first:
+```sh
+xcode-select --install
+```
+
 Run this:
 
-
 ```sh
-git clone https://github.com/yannbf/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
-script/bootstrap
+sh -c "`curl -fsSL https://raw.githubusercontent.com/yannbf/dotfiles/master/start.sh `"
 ```
 
 This will symlink the appropriate files in `.dotfiles` to your home directory.

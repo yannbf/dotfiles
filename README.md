@@ -1,18 +1,30 @@
-# holman does dotfiles
+# My dotfiles
 
-Your dotfiles are how you personalize your system. These are mine.
-
-I was a little tired of having long alias files and everything strewn about
-(which is extremely common on other dotfiles projects, too). That led to this
-project being much more topic-centric. I realized I could split a lot of things
-up into the main areas I used (Ruby, git, system libraries, and so on), so I
-structured the project accordingly.
+Your dotfiles are how you personalize your system. This repo contains mine.
+ps: This is focused on MacOS. Try this at your own risk.
 
 If you're interested in the philosophy behind why projects like these are
-awesome, you might want to [read my post on the
+awesome, you might want to [read holman's post on the
 subject](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/).
 
-## topical
+## What this does
+TLDR: Sets an entire development setup from a freshly installed mac in under 10 minutes.
+
+* Installs a set of applications: 
+Iterm2 (along with powerline fonts), VSCode, Slack, Docker, Spetacle, Alfred, Charles proxy, Chrome, Firefox and Spotify from the [brewfile](/homebrew/Brewfile).
+
+* Installs command line tools:
+ack, git, git-flow, watchman, wget, yarn, zlib, zsh, zsh-completions, zsh-syntax-highlighting, oh-my-zsh also from the [brewfile](/homebrew/Brewfile)
+
+* Sets macOS defaults for better experience, such as:
+Enable key repeats, tap to click on trackpad, add bluetooth and battery % on menubar, etc. Check [the file](/macos/set-defaults.sh) to see all it does.
+
+* Sets iterm2 configuration to use the custom versioned config for zero effort setup.
+
+* Sets aliases for all kinds of things. Look for all aliases.zsh files to check them.
+
+
+## Topical
 
 Everything's built around topic areas. If you're adding a new area to your
 forked dotfiles — say, "Java" — you can simply add a `java` directory and put
@@ -20,14 +32,7 @@ files in there. Anything with an extension of `.zsh` will get automatically
 included into your shell. Anything with an extension of `.symlink` will get
 symlinked without extension into `$HOME` when you run `script/bootstrap`.
 
-## what's inside
-
-A lot of stuff. Seriously, a lot of stuff. Check them out in the file browser
-above and see what components may mesh up with you.
-[Fork it](https://github.com/holman/dotfiles/fork), remove what you don't
-use, and build on what you do use.
-
-## components
+## Components
 
 There's a few special files in the hierarchy.
 
@@ -45,7 +50,8 @@ There's a few special files in the hierarchy.
   but still keep those autoloaded files in your home directory. These get
   symlinked in when you run `script/bootstrap`.
 
-## install
+## Install
+ps: If you want to install this with your own customizations, skip this section.
 
 If you come from a fresh mac install, run this first:
 ```sh
@@ -69,22 +75,15 @@ defaults, and so on. Tweak this script, and occasionally run `dot` from
 time to time to keep your environment fresh and up-to-date. You can find
 this script in `bin/`.
 
-## bugs
+## Install with my own customization
 
-I want this to work for everyone; that means when you clone it down it should
-work for you even though you may not have `rbenv` installed, for example. That
-said, I do use this as _my_ dotfiles, so there's a good chance I may break
-something if I forget to make a check for a dependency.
+If you want to strip out or add more things to your setup, you might want to fork this repo first, remove what you don't need, tweak with which applications you want installed in the [brewfile](/homebrew/Brewfile), along with other config files with the extension `.zsh`.
 
-If you're brand-new to the project and run into any blockers, please
-[open an issue](https://github.com/holman/dotfiles/issues) on this repository
-and I'd love to get it fixed for you!
+Once you do that, then just run `script/bootstrap`.
 
-## thanks
+ps: To better understand the flow of the scripts, check `script/bootstrap`, `script/install`, `bin/dot` and `zsh/zshrc.symlink` (where the zsh files are run)
 
-I forked [Ryan Bates](http://github.com/ryanb)' excellent
-[dotfiles](http://github.com/ryanb/dotfiles) for a couple years before the
-weight of my changes and tweaks inspired me to finally roll my own. But Ryan's
-dotfiles were an easy way to get into bash customization, and then to jump ship
-to zsh a bit later. A decent amount of the code in these dotfiles stem or are
-inspired from Ryan's original project.
+## Thanks
+
+I forked [Zach Holman](http://github.com/holman)'s excellent
+[dotfiles](http://github.com/holman/dotfiles) and customized it for my own needs.

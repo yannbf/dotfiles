@@ -29,9 +29,11 @@ cask "alfred"
 cask "charles"
 cask "firefox"
 cask "spotify"
+cask "figma"
 
 # install brew formulae
 brew "ack"
+brew "mas"
 brew "git-flow"
 brew "git"
 brew "watchman"
@@ -41,3 +43,7 @@ brew "zlib"
 brew "zsh"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
+
+# Mac App Store 
+# ================
+mas "WhatsApp Desktop", id: 1147396723

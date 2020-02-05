@@ -47,3 +47,5 @@ brew "zsh-syntax-highlighting"
 # Mac App Store 
 # ================
 mas "WhatsApp Desktop", id: 1147396723
+mas "Pages", id: 409201541
+mas "Keynote", id: 409183694

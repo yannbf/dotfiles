@@ -34,6 +34,7 @@ cask "figma"
 # install brew formulae
 brew "ack"
 brew "mas"
+brew "cocoapods"
 brew "git-flow"
 brew "git"
 brew "watchman"

@@ -50,3 +50,6 @@ brew "zsh-syntax-highlighting"
 mas "WhatsApp Desktop", id: 1147396723
 mas "Pages", id: 409201541
 mas "Keynote", id: 409183694
+mas "Xcode", id: 497799835
+mas "Dashlane - Password Manager", id: 552383089
+mas "NordVPN IKE - Unlimited VPN", id: 1116599239

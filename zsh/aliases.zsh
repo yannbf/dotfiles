@@ -7,7 +7,7 @@ alias :q='exit'
 alias -- -="cd -"
 alias grep='grep --color=auto'
 
-alias ip='ipconfig getifaddr en0'
+alias ip='ipconfig getifaddr en0 && ipconfig getifaddr en0 | pbcopy'
 
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"

@@ -28,6 +28,7 @@ cask "spectacle"
 cask "alfred"
 cask "charles"
 cask "firefox"
+cask "postman"
 cask "spotify"
 cask "figma"
 

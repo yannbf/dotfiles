@@ -4,6 +4,10 @@ alias cls='clear' # Good 'ol Clear Screen command
 alias quit='exit' # It's just easier to type
 alias :q='exit'
 
+alias yst='yarn storybook'
+alias ys='yarn start'
+alias yb='yarn build'
+
 alias -- -="cd -"
 alias grep='grep --color=auto'
 

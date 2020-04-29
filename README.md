@@ -83,6 +83,10 @@ Once you do that, then just run `script/bootstrap`.
 
 ps: To better understand the flow of the scripts, check `script/bootstrap`, `script/install`, `bin/dot` and `zsh/zshrc.symlink` (where the zsh files are run)
 
+## Adding new apps
+
+When using homebrew/cask/mas, if you need to add a new application or tool, just go to the Brewfile (for CLI and UI tools) and BrewfileAppStore (for app store apps) and add a new entry there. After doing that, run `brew-update` and you're set!
+
 ## Thanks
 
 I forked [Zach Holman](http://github.com/holman)'s excellent

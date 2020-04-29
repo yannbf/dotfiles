@@ -24,13 +24,14 @@ cask "google-chrome"
 cask "visual-studio-code"
 cask "slack"
 cask "docker"
-cask "spectacle"
-cask "alfred"
-cask "charles"
+cask "spectacle"            # App to easily resize and organize windows
+cask "alfred"               # Best productivity tool ever?
+cask "charles"              # Proxy app, very useful for debugging in prod
 cask "firefox"
 cask "postman"
 cask "spotify"
-cask "figma"
+cask "figma"                # Great app for designing stuff
+cask "mounty"               # App to mount NTFS with write mode
 
 # install brew formulae
 brew "ack"
@@ -45,12 +46,3 @@ brew "zlib"
 brew "zsh"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
-
-# Mac App Store 
-# ================
-mas "WhatsApp Desktop", id: 1147396723
-mas "Pages", id: 409201541
-mas "Keynote", id: 409183694
-mas "Xcode", id: 497799835
-mas "Dashlane - Password Manager", id: 552383089
-mas "NordVPN IKE - Unlimited VPN", id: 1116599239

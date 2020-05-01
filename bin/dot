@@ -48,8 +48,7 @@ echo -e "\033[1;33m› Updating homebrew..\033[0m"
 brew update
 
 # Upgrade homebrew
-echo -e "\033[1;33m› Installing all applications from the Brewfile..\033[0m"
-brew bundle --file=$ZSH/homebrew/Brewfile
+$ZSH/homebrew/update.sh
 
 # Install software
 echo -e "\033[1;33m› Running install scripts from $ZSH/script/install\033[0m"

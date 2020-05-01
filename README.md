@@ -61,7 +61,7 @@ xcode-select --install
 Run this:
 
 ```sh
-sh -c "`curl -fsSL https://raw.githubusercontent.com/yannbf/dotfiles/master/start.sh `"
+sh -c "`curl -fsSL https://raw.githubusercontent.com/guilhermewaess/dotfiles/master/start.sh `"
 ```
 
 This will symlink the appropriate files in `.dotfiles` to your home directory.

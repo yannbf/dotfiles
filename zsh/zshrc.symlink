@@ -72,3 +72,10 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 
 export ZSH=$HOME/.dotfiles/.oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+
+# Fix compaudit message
+for f in $(compaudit);do sudo chmod -R 755 $f;done
+
+# Add N installation folder to .n
+export N_PREFIX=$HOME/.n
+export PATH=$N_PREFIX/bin:$PATH

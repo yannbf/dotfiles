@@ -45,20 +45,18 @@ if ask "Do you want to update default configurations for macOS?" Y; then
     # Keyboard & Trackpad                                                         #
     ###############################################################################
 
-    if ask "Use scroll gesture with the Ctrl (^) modifier key to zoom?" Y; then
-        defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
-        defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 1048576
-    fi
+    # if ask "Use scroll gesture with the Ctrl (^) modifier key to zoom?" Y; then
+    #     defaults write com.apple.universalaccess closeViewScrollWheelToggle -bool true
+    #     defaults write com.apple.universalaccess HIDScrollZoomModifierMask -int 1048576
+    # fi
 
     if ask "Disable press-and-hold for keys in favor of key repeat?" Y; then
         defaults write -g ApplePressAndHoldEnabled -bool false
-    fi
-    
-    if ask "Set a faster key repeat?" Y; then
         defaults write NSGlobalDomain KeyRepeat -int 2
     fi
 
     if ask "Enable tap to click on trackpad?" Y; then
+        defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
         defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
     fi
 
@@ -87,47 +85,47 @@ if ask "Do you want to update default configurations for macOS?" Y; then
         defaults write com.apple.TextEdit PlainTextEncodingForWrite -int 4
     fi
 
-    if ask "Automatically open a new Finder window when a volume is mounted?" Y; then
-        defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
-        defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
-        defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
-    fi
+    # if ask "Automatically open a new Finder window when a volume is mounted?" Y; then
+    #     defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
+    #     defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
+    #     defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
+    # fi
 
-    if ask "Always open everything in Finder's list view?" Y; then
-        defaults write com.apple.Finder FXPreferredViewStyle Nlsv
-    fi
+    # if ask "Always open everything in Finder's list view?" Y; then
+    #     defaults write com.apple.Finder FXPreferredViewStyle Nlsv
+    # fi
 
-    if ask "Show the ~/Library folder in Finder?" Y; then
-        chflags nohidden ~/Library
-    fi
+    # if ask "Show the ~/Library folder in Finder?" Y; then
+    #     chflags nohidden ~/Library
+    # fi
 
-    if ask "Set Finder to show external hard drives and removable media volumes on the Desktop?" Y; then
-        defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-        defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
-    fi
+    # if ask "Set Finder to show external hard drives and removable media volumes on the Desktop?" Y; then
+    #     defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
+    #     defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool true
+    # fi
 
-    if ask "Enable AirDrop over Ethernet and on unsupported Macs running Lion?" Y; then
-        defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1
-    fi
+    # if ask "Enable AirDrop over Ethernet and on unsupported Macs running Lion?" Y; then
+    #     defaults write com.apple.NetworkBrowser BrowseAllInterfaces 1
+    # fi
 
     if ask "Run the screensaver if mouse touches the bottom-left hot corner?" Y; then
         defaults write com.apple.dock wvous-bl-corner -int 5
         defaults write com.apple.dock wvous-bl-modifier -int 0
     fi
 
-    if ask "Ask for password after going into screensaver mode?" Y; then
-        defaults write com.apple.screensaver askForPassword -int 1
-        defaults write com.apple.screensaver askForPasswordDelay -int 0
-    fi
+    # if ask "Ask for password after going into screensaver mode?" Y; then
+    #     defaults write com.apple.screensaver askForPassword -int 1
+    #     defaults write com.apple.screensaver askForPasswordDelay -int 0
+    # fi
 
 
     ###############################################################################
     # Safari                                                                      #
     ###############################################################################
     
-    if ask "Hide Safari's bookmark bar?" Y; then
-        defaults write com.apple.Safari ShowFavoritesBar -bool false
-    fi
+    # if ask "Hide Safari's bookmark bar?" Y; then
+    #     defaults write com.apple.Safari ShowFavoritesBar -bool false
+    # fi
 
     if ask "Enable the Develop menu and the Web Inspector in Safari?" Y; then
         defaults write com.apple.Safari IncludeInternalDebugMenu -bool true

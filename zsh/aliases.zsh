@@ -6,12 +6,17 @@ alias :q='exit'
 
 alias yst='yarn storybook'
 alias ys='yarn start'
+alias yt='yarn test'
 alias yb='yarn build'
-alias test='npx jest --watch'
+alias ns='npm run start'
+alias nt='npm run test'
+alias nti='rm -rf dist && npm run test-int-ui'
+alias ntiprod='npm run configure -- --build acceptance && npm run build-min -- --verbose && npm run test-int-ui'
+alias testy='npx jest --watch'
 alias dk='docker-compose up'
 alias dkbuild='docker-compose build'
 
-alias --="cd -"
+alias -- -="cd -"
 alias grep='grep --color=auto'
 
 alias ip='ipconfig getifaddr en0 && ipconfig getifaddr en0 | pbcopy'
@@ -33,6 +38,3 @@ alias staurelia='yarn --cwd examples/aurelia-kitchen-sink storybook'
 alias stangular='yarn --cwd examples/angular-cli storybook'
 alias stvue='yarn --cwd examples/vue-kitchen-sink storybook'
 alias stsvelte='yarn --cwd examples/svelte-kitchen-sink storybook'
-
-# hybrid-core specific
-alias iphone='cd dist/app && cordova platform add ios@5.0.1 && cordova platform remove ios && cordova platform add ios@5.0.1 && cordova run ios'

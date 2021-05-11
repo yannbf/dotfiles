@@ -1,0 +1,11 @@
+#!/bin/sh
+# I never know whether my repo uses master or main, so let's make a script to fix that
+
+master_branch=$(git branch -r | grep "master")
+
+if [ -z "$master_branch" ]
+then
+  git checkout main
+else
+  git checkout master
+fi

@@ -144,6 +144,8 @@ install_dotfiles
 if [ "$(uname -s)" == "Darwin" ]
 then
   info "installing dependencies"
+  echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/$USER/.zprofile
+  eval "$(/opt/homebrew/bin/brew shellenv)"
   if source bin/dot | while read -r data; do info "$data"; done
   then
     success "dependencies installed"

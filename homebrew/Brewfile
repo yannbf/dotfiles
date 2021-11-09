@@ -4,9 +4,29 @@
 
 # Tap sources
 # ================
-tap "phinze/cask"
+tap "github/gh"
+tap "homebrew/bundle"
+tap "homebrew/cask"
 tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+tap "homebrew/core"
 
+# install brew formulae
+brew "svn"
+brew "ack"
+brew "mas"
+brew "cocoapods"
+brew "gh"
+brew "git-flow"
+brew "git"
+brew "watchman"
+brew "wget"
+brew "yarn"
+brew "zlib"
+brew "zsh"
+brew "zsh-autosuggestions"
+brew "zsh-completions"
+brew "zsh-syntax-highlighting"
 
 # Install formulae
 # ================
@@ -19,11 +39,14 @@ cask "font-powerline-symbols"
 cask "font-fira-code"
 cask "font-awesome-terminal-fonts"
 
+cask "1password"
 cask "iterm2"
 cask "google-chrome"
 cask "visual-studio-code"
 cask "slack"
+cask "discord"
 cask "docker"
+cask "notion"
 cask "spectacle"            # App to easily resize and organize windows
 cask "alfred"               # Best productivity tool ever?
 cask "charles"              # Proxy app, very useful for debugging in prod
@@ -32,17 +55,3 @@ cask "postman"
 cask "spotify"
 cask "figma"                # Great app for designing stuff
 cask "mounty"               # App to mount NTFS with write mode
-
-# install brew formulae
-brew "ack"
-brew "mas"
-brew "cocoapods"
-brew "git-flow"
-brew "git"
-brew "watchman"
-brew "wget"
-brew "yarn"
-brew "zlib"
-brew "zsh"
-brew "zsh-completions"
-brew "zsh-syntax-highlighting"

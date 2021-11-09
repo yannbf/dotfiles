@@ -44,7 +44,7 @@ ask() {
 echo "\033[1;33m› Installing or updating all applications from the Brewfile..\033[0m"
 brew bundle --file=$HOME/.dotfiles/homebrew/Brewfile
 
-if ask "\033[1;33m› Install/update your app store applications from your HomebrewAppStore file? This process might take a long time.\nYou can install later by running update-brew"; then
+if ask "\033[1;33m› Install/update your app store applications from your HomebrewAppStore file? This process might take a few minutes.\nYou can also install this later by running update-brew"; then
   echo "\033[1;33m› Installing all app store applications from the Brewfile..\033[0m"
   brew bundle --file=$HOME/.dotfiles/homebrew/BrewfileAppStore
 fi

@@ -38,3 +38,5 @@ alias staurelia='yarn --cwd examples/aurelia-kitchen-sink storybook'
 alias stangular='yarn --cwd examples/angular-cli storybook'
 alias stvue='yarn --cwd examples/vue-kitchen-sink storybook'
 alias stsvelte='yarn --cwd examples/svelte-kitchen-sink storybook'
+
+alias release-alpha='npm version prerelease --preid=alpha && git push --follow-tags && npm publish --tag alpha'

@@ -26,3 +26,5 @@ alias gac='git add -A && git commit -m'
 alias ge='git-edit-new'
 alias ggm='git checkout master && git pull'
 alias git-purge="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d && git remote prune origin"
+
+alias gpublish='gp && gco production && gm master && gp && gco master'

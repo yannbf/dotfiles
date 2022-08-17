@@ -28,3 +28,9 @@ alias ggm='git checkout master && git pull'
 alias git-purge="git branch --merged master | grep -v -e 'master' -e '\*' | xargs -n 1 git branch -d && git remote prune origin"
 
 alias gpublish='gp && gco production && gm master && gp && gco master'
+
+alias gdnew="for next in \$( git ls-files --others --exclude-standard ) ; do git --no-pager diff --no-index /dev/null \$next; done;"
+alias git-patch="git --no-pager diff > diff.patch; gdnew"
+
+alias gnuke="gco . && git clean -df"
+alias gnukef="gco . && git clean -xdf"

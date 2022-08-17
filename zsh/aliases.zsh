@@ -6,12 +6,17 @@ alias :q='exit'
 
 alias yst='yarn storybook'
 alias ys='yarn start'
-alias yt='yarn test'
 alias yb='yarn build'
+alias yt='yarn test'
+alias ytst='yarn test-storybook'
+alias kst='kill-port 6006'
+
 alias yyst='yarn && yst'
 alias yys='yarn && ys'
-alias yyt='yarn && yt'
 alias yyb='yarn && yb'
+alias yyt='yarn && yt'
+alias yytst='yarn && ytst'
+
 alias ns='npm run start'
 alias nt='npm run test'
 alias nti='rm -rf dist && npm run test-int-ui'
@@ -37,12 +42,21 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 done
 
 # storybook monorepo specific
-alias streact='yarn --cwd examples/official-storybook storybook'
-alias staurelia='yarn --cwd examples/aurelia-kitchen-sink storybook'
-alias stangular='yarn --cwd examples/angular-cli storybook'
-alias stvue='yarn --cwd examples/vue-kitchen-sink storybook'
-alias stsvelte='yarn --cwd examples/svelte-kitchen-sink storybook'
+alias ybt='yarn --cwd $HOME/open-source/storybook/code bootstrap --core'
+alias ybp='yarn --cwd $HOME/open-source/storybook/code bootstrap --prep'
+alias ystreact='yarn --cwd examples/react-ts storybook'
+alias ystofficial='yarn --cwd examples/official-storybook storybook'
+alias ystaurelia='yarn --cwd examples/aurelia-kitchen-sink storybook'
+alias ystangular='yarn --cwd examples/angular-cli storybook'
+alias ystvue='yarn --cwd examples/vue-kitchen-sink storybook'
+alias ystsvelte='yarn --cwd examples/svelte-kitchen-sink storybook'
+alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
+alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'
 
 alias release-alpha='npm version prerelease --preid=alpha && git push --follow-tags && npm publish --tag alpha'
 alias release-patch='yarn build && npm version patch && git push --follow-tags && npm publish'
 alias release-minor='yarn build && npm version patch && git push --follow-tags && npm publish'
+
+
+disable -r time
+alias time='time -p'

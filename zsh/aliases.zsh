@@ -67,6 +67,7 @@ done
 alias ybt='yarn --cwd $HOME/open-source/storybook/code task --task compile'
 alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
 alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'
+alias build='yarn --cwd $HOME/open-source/storybook/code build'
 alias sandbox='yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template'
 # needs update in task command to work. e.g. support --template cra-default-js instead of cra/default-js
 alias e2e="yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template `pwd | sed -e 's/\/.*\///g'`"

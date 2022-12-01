@@ -4,28 +4,50 @@ alias cls='clear' # Good 'ol Clear Screen command
 alias quit='exit' # It's just easier to type
 alias :q='exit'
 
-alias yst='yarn storybook'
-alias ys='yarn start'
-alias yb='yarn build'
-alias yt='yarn test'
-alias ytst='yarn test-storybook'
+function pkginstall() {
+	if [ -f "package.lock" ]; then
+		npm install
+	elif [ -f "pnpm-lock.yaml" ]; then
+		pnpm install
+	else
+		yarn
+	fi
+}
+
+function pkgrun() {
+	if [ -f "package.lock" ]; then
+    npm run $1
+	elif [ -f "pnpm-lock.yaml" ]; then
+    pnpm run $1
+	else
+    yarn $1
+	fi
+}
+
 alias kst='kill-port 6006'
+alias kp='kill-port'
 
-alias yyst='yarn && yst'
-alias yys='yarn && ys'
-alias yyb='yarn && yb'
-alias yyt='yarn && yt'
-alias yytst='yarn && ytst'
+# useful for commands
+alias yi='pkginstall'
+alias yst='pkgrun storybook'
+alias ys='pkgrun start'
+alias yb='pkgrun build'
+alias yt='pkgrun test'
+alias ytst='pkgrun test-storybook'
+alias ydev='pkgrun dev'
 
-alias ns='npm run start'
-alias nt='npm run test'
-alias nti='rm -rf dist && npm run test-int-ui'
-alias ntiprod='npm run configure -- --build acceptance && npm run build-min -- --verbose && npm run test-int-ui'
+# install and execute
+alias yyst='yi && yst'
+alias yys='yi && ys'
+alias yyb='yi && yb'
+alias yyt='yi && yt'
+alias yydev='yi && dev'
+alias yytst='yi && ytst'
+
 alias testy='npx jest --watch'
 alias dk='docker-compose up'
 alias dkbuild='docker-compose build'
 
-alias -- -="cd -"
 alias grep='grep --color=auto'
 
 alias ip='ipconfig getifaddr en0 && ipconfig getifaddr en0 | pbcopy'
@@ -42,16 +64,13 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 done
 
 # storybook monorepo specific
-alias ybt='yarn --cwd $HOME/open-source/storybook/code bootstrap --core'
-alias ybp='yarn --cwd $HOME/open-source/storybook/code bootstrap --prep'
-alias ystreact='yarn --cwd examples/react-ts storybook'
-alias ystofficial='yarn --cwd examples/official-storybook storybook'
-alias ystaurelia='yarn --cwd examples/aurelia-kitchen-sink storybook'
-alias ystangular='yarn --cwd examples/angular-cli storybook'
-alias ystvue='yarn --cwd examples/vue-kitchen-sink storybook'
-alias ystsvelte='yarn --cwd examples/svelte-kitchen-sink storybook'
+alias ybt='yarn --cwd $HOME/open-source/storybook/code task --task compile'
 alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
 alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'
+alias sandbox='yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template'
+# needs update in task command to work. e.g. support --template cra-default-js instead of cra/default-js
+alias e2e="yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template `pwd | sed -e 's/\/.*\///g'`"
+alias trace="npx playwright show-trace"
 
 alias release-alpha='npm version prerelease --preid=alpha && git push --follow-tags && npm publish --tag alpha'
 alias release-patch='yarn build && npm version patch && git push --follow-tags && npm publish'

@@ -5,7 +5,7 @@ alias quit='exit' # It's just easier to type
 alias :q='exit'
 
 function pkginstall() {
-	if [ -f "package.lock" ]; then
+	if [ -f "package-lock.json" ]; then
 		npm install
 	elif [ -f "pnpm-lock.yaml" ]; then
 		pnpm install
@@ -15,7 +15,7 @@ function pkginstall() {
 }
 
 function pkgrun() {
-	if [ -f "package.lock" ]; then
+	if [ -f "package-lock.json" ]; then
     npm run $1
 	elif [ -f "pnpm-lock.yaml" ]; then
     pnpm run $1
@@ -30,6 +30,7 @@ alias kp='kill-port'
 # useful for commands
 alias yi='pkginstall'
 alias yst='pkgrun storybook'
+alias ybst='pkgrun build-storybook'
 alias ys='pkgrun start'
 alias yb='pkgrun build'
 alias yt='pkgrun test'
@@ -40,6 +41,7 @@ alias ydev='pkgrun dev'
 alias yyst='yi && yst'
 alias yys='yi && ys'
 alias yyb='yi && yb'
+alias yybst='yi && ybst'
 alias yyt='yi && yt'
 alias yydev='yi && dev'
 alias yytst='yi && ytst'
@@ -68,6 +70,7 @@ alias ybt='yarn --cwd $HOME/open-source/storybook/code task --task compile'
 alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
 alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'
 alias build='yarn --cwd $HOME/open-source/storybook/code build'
+alias buildw='yarn --cwd $HOME/open-source/storybook/code build --watch'
 alias sandbox='yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template'
 # needs update in task command to work. e.g. support --template cra-default-js instead of cra/default-js
 alias e2e="yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template `pwd | sed -e 's/\/.*\///g'`"

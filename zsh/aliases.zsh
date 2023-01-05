@@ -4,6 +4,16 @@ alias cls='clear' # Good 'ol Clear Screen command
 alias quit='exit' # It's just easier to type
 alias :q='exit'
 
+function pkgadd() {
+	if [ -f "package-lock.json" ]; then
+		npm install $1 $2
+	elif [ -f "pnpm-lock.yaml" ]; then
+		pnpm add $1 $2
+	else
+		yarn add $1 $2
+	fi
+}
+
 function pkginstall() {
 	if [ -f "package-lock.json" ]; then
 		npm install
@@ -29,6 +39,8 @@ alias kp='kill-port'
 
 # useful for commands
 alias yi='pkginstall'
+alias yadd='pkgadd'
+alias yaddD='pkgadd -D'
 alias yst='pkgrun storybook'
 alias ybst='pkgrun build-storybook'
 alias ys='pkgrun start'

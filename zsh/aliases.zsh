@@ -6,11 +6,11 @@ alias :q='exit'
 
 function pkgadd() {
 	if [ -f "package-lock.json" ]; then
-		npm install $1 $2
+		npm install $@
 	elif [ -f "pnpm-lock.yaml" ]; then
-		pnpm add $1 $2
+		pnpm add $@
 	else
-		yarn add $1 $2
+		yarn add $@
 	fi
 }
 
@@ -26,11 +26,11 @@ function pkginstall() {
 
 function pkgrun() {
 	if [ -f "package-lock.json" ]; then
-    npm run $1
+    npm run $@
 	elif [ -f "pnpm-lock.yaml" ]; then
-    pnpm run $1
+    pnpm run $@
 	else
-    yarn $1
+    yarn $@
 	fi
 }
 
@@ -78,7 +78,9 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 done
 
 # storybook monorepo specific
-alias ybt='yarn --cwd $HOME/open-source/storybook/code task --task compile'
+alias ybt='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from install'
+alias yc='yarn --cwd $HOME/open-source/storybook/code nx run-many --target="prep" --all --parallel --max-parallel=9 --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset'
+# alias yc='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from compile'
 alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
 alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'
 alias build='yarn --cwd $HOME/open-source/storybook/code build'

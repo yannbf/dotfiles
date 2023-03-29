@@ -34,6 +34,32 @@ function pkgrun() {
 	fi
 }
 
+function yu() {
+  if [ -f "package.json" ]; then
+    jq --arg version "$1" '
+      .devDependencies |= (
+        to_entries | map(
+          if (.key | test("@storybook/.+|storybook")) and (.value | test("^(6|7)\\."))
+          then (.value = $version)
+          else .
+          end
+        ) | from_entries
+      )
+    ' package.json > package.json.tmp && mv package.json.tmp package.json
+    yyst
+  fi
+}
+
+function get-release() {
+    local package_json="./package.json"
+    local version=$(jq -r '.devDependencies | to_entries[] | select(.key | test("@storybook/.*")) | .value' $package_json | cut -d '"' -f 2 | head -n 1)
+    if [ -z "$version" ]; then
+        echo "No matching version found for @storybook/* in $package_json"
+    else
+        echo "https://github.com/storybookjs/storybook/releases/tag/v$version"
+    fi
+}
+
 alias kst='kill-port 6006'
 alias kp='kill-port'
 
@@ -89,11 +115,12 @@ alias sandbox='yarn --cwd $HOME/open-source/storybook/code task --task sandbox -
 # needs update in task command to work. e.g. support --template cra-default-js instead of cra/default-js
 alias e2e="yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template `pwd | sed -e 's/\/.*\///g'`"
 alias trace="npx playwright show-trace"
+alias playwright="STORYBOOK_URL=http://localhost:8001 STORYBOOK_TEMPLATE_NAME=`pwd | sed -e 's/\/.*\///g'` yarn --cwd $HOME/open-source/storybook/code playwright test"
+alias serve="yarn --cwd $HOME/open-source/storybook/code http-server `pwd`/storybook-static --port 8001"
 
 alias release-alpha='npm version prerelease --preid=alpha && git push --follow-tags && npm publish --tag alpha'
 alias release-patch='yarn build && npm version patch && git push --follow-tags && npm publish'
 alias release-minor='yarn build && npm version patch && git push --follow-tags && npm publish'
-
 
 disable -r time
 alias time='time -p'

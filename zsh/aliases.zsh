@@ -26,7 +26,9 @@ function pkginstall() {
 	fi
 }
 
-function pkgrun() {
+# run any command from the correct package manager. Instead of: npm run build:watch, yarn storybook
+# You would use: y build:watch, y storybook and it would figure out the right package manager to use
+function y() {
 	if [ -f "package-lock.json" ]; then
     npm run $@
 	elif [ -f "pnpm-lock.yaml" ]; then
@@ -73,13 +75,13 @@ alias kp='kill-port'
 alias yi='pkginstall'
 alias yadd='pkgadd'
 alias yaddD='pkgadd -D'
-alias yst='pkgrun storybook'
-alias ybst='pkgrun build-storybook'
-alias ys='pkgrun start'
-alias yb='pkgrun build'
-alias yt='pkgrun test'
-alias ytst='pkgrun test-storybook'
-alias ydev='pkgrun dev'
+alias yst='y storybook'
+alias ybst='y build-storybook'
+alias ys='y start'
+alias yb='y build'
+alias yt='y test'
+alias ytst='y test-storybook'
+alias ydev='y dev'
 
 # install and execute
 alias yyst='yi && yst'

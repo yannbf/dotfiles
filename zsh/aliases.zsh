@@ -4,6 +4,8 @@ alias cls='clear' # Good 'ol Clear Screen command
 alias quit='exit' # It's just easier to type
 alias :q='exit'
 
+# utilities to figure out which package manager
+# to run commands from - used in the "y*" alisases below
 function pkgadd() {
 	if [ -f "package-lock.json" ]; then
 		npm install $@
@@ -34,6 +36,19 @@ function pkgrun() {
 	fi
 }
 
+# prints the link to the release of the current storybook version in the project
+function get-release() {
+    local package_json="./package.json"
+    local version=$(jq -r '.devDependencies | to_entries[] | select(.key | test("@storybook/.*")) | .value' $package_json | cut -d '"' -f 2 | head -n 1)
+    if [ -z "$version" ]; then
+        echo "No matching version found for @storybook/* in $package_json"
+    else
+        echo "https://github.com/storybookjs/storybook/releases/tag/v$version"
+    fi
+}
+
+# updates every single @storybook/* package in the project to the specified version.
+# Usage: yu 7.1.0-alpha.0
 function yu() {
   if [ -f "package.json" ]; then
     jq --arg version "$1" '
@@ -50,15 +65,6 @@ function yu() {
   fi
 }
 
-function get-release() {
-    local package_json="./package.json"
-    local version=$(jq -r '.devDependencies | to_entries[] | select(.key | test("@storybook/.*")) | .value' $package_json | cut -d '"' -f 2 | head -n 1)
-    if [ -z "$version" ]; then
-        echo "No matching version found for @storybook/* in $package_json"
-    else
-        echo "https://github.com/storybookjs/storybook/releases/tag/v$version"
-    fi
-}
 
 alias kst='kill-port 6006'
 alias kp='kill-port'
@@ -106,6 +112,7 @@ done
 # storybook monorepo specific
 alias ybt='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from install'
 alias yc='yarn --cwd $HOME/open-source/storybook/code nx run-many --target="prep" --all --parallel --max-parallel=9 --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset'
+alias yci='yarn task --task compile --start-from=install'
 # alias yc='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from compile'
 alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
 alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'

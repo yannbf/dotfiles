@@ -38,35 +38,16 @@ function y() {
 	fi
 }
 
-# prints the link to the release of the current storybook version in the project
+# opens the link to the release of the current storybook version in the project
 function get-release() {
     local package_json="./package.json"
     local version=$(jq -r '.devDependencies | to_entries[] | select(.key | test("@storybook/.*")) | .value' $package_json | cut -d '"' -f 2 | head -n 1)
     if [ -z "$version" ]; then
         echo "No matching version found for @storybook/* in $package_json"
     else
-        echo "https://github.com/storybookjs/storybook/releases/tag/v$version"
+        echo "open https://github.com/storybookjs/storybook/releases/tag/v$version"
     fi
 }
-
-# updates every single @storybook/* package in the project to the specified version.
-# Usage: yu 7.1.0-alpha.0
-function yu() {
-  if [ -f "package.json" ]; then
-    jq --arg version "$1" '
-      .devDependencies |= (
-        to_entries | map(
-          if (.key | test("@storybook/.+|storybook")) and (.value | test("^(6|7)\\."))
-          then (.value = $version)
-          else .
-          end
-        ) | from_entries
-      )
-    ' package.json > package.json.tmp && mv package.json.tmp package.json
-    yyst
-  fi
-}
-
 
 alias kst='kill-port 6006'
 alias kp='kill-port'
@@ -75,8 +56,8 @@ alias kp='kill-port'
 alias yi='pkginstall'
 alias yadd='pkgadd'
 alias yaddD='pkgadd -D'
-alias yst='y storybook'
-alias ybst='y build-storybook'
+alias yst='STORYBOOK_DISABLE_TELEMETRY=true y storybook'
+alias ybst='STORYBOOK_DISABLE_TELEMETRY=true y build-storybook'
 alias ys='y start'
 alias yb='y build'
 alias yt='y test'
@@ -91,6 +72,29 @@ alias yybst='yi && ybst'
 alias yyt='yi && yt'
 alias yydev='yi && dev'
 alias yytst='yi && ytst'
+
+# updates every single @storybook/* package in the project to the specified version.
+# Usage: yu 7.1.0-alpha.0
+function yu() {
+  if [ -f "package.json" ]; then
+    jq --arg version "$1" '
+      # Set up a disallowlist for packages that are v7 but not aligned with the monorepo package versions
+      def disallowlist: ["@storybook/addon-designs"];
+      def isDisallowed($pkg): disallowlist | index($pkg) | not;
+
+      .devDependencies |= (
+        to_entries | map(
+          if (.key | test("@storybook/.+|storybook")) and (isDisallowed(.key)) and (.value | test("^(\\^?(6|7)\\.)"))
+          then (.value = $version)
+          else .
+          end
+        ) | from_entries
+      )
+    ' package.json > package.json.tmp && mv package.json.tmp package.json
+    # right after updating, run install + storybook
+    yyst
+  fi
+}
 
 alias testy='npx jest --watch'
 alias dk='docker-compose up'
@@ -117,10 +121,12 @@ alias yc='yarn --cwd $HOME/open-source/storybook/code nx run-many --target="prep
 alias yci='yarn task --task compile --start-from=install'
 # alias yc='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from compile'
 alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
-alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'
+alias sb='STORYBOOK_DISABLE_TELEMETRY=true $HOME/open-source/storybook/code/lib/cli/bin/index.js'
+alias sbx='STORYBOOK_DISABLE_TELEMETRY=true yarn exec $HOME/open-source/storybook/code/lib/cli/bin/index.js'
 alias build='yarn --cwd $HOME/open-source/storybook/code build'
 alias buildw='yarn --cwd $HOME/open-source/storybook/code build --watch'
-alias sandbox='yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template'
+alias sandbox='sandbox_func() { yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template "$1"/default-ts; }; sandbox_func'
+
 # needs update in task command to work. e.g. support --template cra-default-js instead of cra/default-js
 alias e2e="yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template `pwd | sed -e 's/\/.*\///g'`"
 alias trace="npx playwright show-trace"

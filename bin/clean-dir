@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# clean-dir
+#
+# Delete all files and directories in the current directory
+
+rm -r *

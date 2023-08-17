@@ -41,7 +41,7 @@ function y() {
 # opens the link to the release of the current storybook version in the project
 function get-release() {
     local package_json="./package.json"
-    local version=$(jq -r '.devDependencies | to_entries[] | select(.key | test("@storybook/.*")) | .value' $package_json | cut -d '"' -f 2 | head -n 1)
+    local version=$(jq -r '.devDependencies | to_entries[] | select(.key | test("@storybook/.*")) | .value' $package_json | cut -d '"' -f 2 | grep -E "^\^?(6|7)\." | head -n 1 | sed -E 's/^[\^~]//')
     if [ -z "$version" ]; then
         echo "No matching version found for @storybook/* in $package_json"
     else
@@ -56,8 +56,8 @@ alias kp='kill-port'
 alias yi='pkginstall'
 alias yadd='pkgadd'
 alias yaddD='pkgadd -D'
-alias yst='STORYBOOK_DISABLE_TELEMETRY=true y storybook'
-alias ybst='STORYBOOK_DISABLE_TELEMETRY=true y build-storybook'
+alias yst='y storybook'
+alias ybst='y build-storybook'
 alias ys='y start'
 alias yb='y build'
 alias yt='y test'
@@ -79,7 +79,7 @@ function yu() {
   if [ -f "package.json" ]; then
     jq --arg version "$1" '
       # Set up a disallowlist for packages that are v7 but not aligned with the monorepo package versions
-      def disallowlist: ["@storybook/addon-designs"];
+      def disallowlist: ["@storybook/addon-designs", "storybook-addon-designs"];
       def isDisallowed($pkg): disallowlist | index($pkg) | not;
 
       .devDependencies |= (
@@ -121,8 +121,8 @@ alias yc='yarn --cwd $HOME/open-source/storybook/code nx run-many --target="prep
 alias yci='yarn task --task compile --start-from=install'
 # alias yc='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from compile'
 alias repro='$HOME/open-source/storybook/lib/cli/bin/index.js repro'
-alias sb='STORYBOOK_DISABLE_TELEMETRY=true $HOME/open-source/storybook/code/lib/cli/bin/index.js'
-alias sbx='STORYBOOK_DISABLE_TELEMETRY=true yarn exec $HOME/open-source/storybook/code/lib/cli/bin/index.js'
+alias sb='$HOME/open-source/storybook/code/lib/cli/bin/index.js'
+alias sbx='yarn exec $HOME/open-source/storybook/code/lib/cli/bin/index.js'
 alias build='yarn --cwd $HOME/open-source/storybook/code build'
 alias buildw='yarn --cwd $HOME/open-source/storybook/code build --watch'
 alias sandbox='sandbox_func() { yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template "$1"/default-ts; }; sandbox_func'

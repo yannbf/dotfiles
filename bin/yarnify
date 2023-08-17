@@ -83,7 +83,7 @@ else
     mv "$extract_temp_dir/package"/* "$zip_temp_dir/node_modules/$package_name"
     
     # Create a zip file
-    (cd "$zip_temp_dir" && zip -r "$zip_file_name" .)
+    (cd "$zip_temp_dir" && zip -rq "$zip_file_name" .)
     
     # Determine target zip file name
     if [ -n "$closest_match" ]; then

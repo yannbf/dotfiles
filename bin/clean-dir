@@ -4,4 +4,4 @@
 #
 # Delete all files and directories in the current directory
 
-rm -r *
+find . -mindepth 1 -delete

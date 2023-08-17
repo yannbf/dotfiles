@@ -1,0 +1,104 @@
+#!/bin/bash
+#
+# yarnify
+#
+# A command that compresses a package and moves it into yarn berry cache.
+# It will run `yarn pack` to generate the distributables, and then extract and 
+# turn it 
+# Usage:
+#   ./yarnify.sh <directory> <version> [--dry-run]
+#   - directory: The path to the directory containing the package.
+#   - version: The package version to be included in the resulting zip file.
+#   - --dry-run: (Optional) Perform a dry run without actual actions.
+#
+
+dry_run=false
+
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <directory> <version> [--dry-run]"
+    exit 1
+fi
+
+directory="$1"
+version="$2"
+shift 2
+
+if [ ! -d "$directory" ]; then
+    echo "Error: Directory '$directory' not found."
+    exit 1
+fi
+
+if [ "$1" = "--dry-run" ]; then
+  dry_run=true
+  shift
+fi
+
+package_name=$(grep '"name":' "$directory/package.json" | sed -E 's/.*"name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+
+if [ -z "$package_name" ]; then
+    echo "Error: Could not extract package name from package.json."
+    exit 1
+fi
+
+package_name=$(grep '"name":' "$directory/package.json" | sed -E 's/.*"name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+parsed_package_name="${package_name//\//-}-npm"
+
+tgz_file_name="package.tgz"
+zip_file_name="$parsed_package_name-$version.zip"
+yarn_cache_dir="$HOME/.yarn/berry/cache"
+
+# Find the closest matching zip file name in yarn cache
+existing_zip_files=("$yarn_cache_dir/$parsed_package_name-$version"*.zip)
+closest_match=""
+for existing_file in "${existing_zip_files[@]}"; do
+    if [[ "$existing_file" =~ $parsed_package_name-$version-.*\.zip ]]; then
+        closest_match="$existing_file"
+        break
+    fi
+done
+
+if [ "$dry_run" = true ]; then
+    echo "Dry run:"
+    echo "Package name: $package_name"
+    echo "Parsed package name: $parsed_package_name"
+    if [ -n "$closest_match" ]; then
+        echo "Closest matching existing zip: $closest_match"
+    fi
+else
+    # Run yarn pack to generate .tgz file
+    (cd "$directory" && yarn pack)
+    
+    # Create temporary directory for extraction
+    extract_temp_dir="$directory/extract_temp"
+    mkdir -p "$extract_temp_dir"
+    
+    # Extract .tgz contents into extract_temp_dir
+    tar -xzf "$directory/$tgz_file_name" -C "$extract_temp_dir"
+    
+    # Create temporary directory for zip contents
+    zip_temp_dir="$directory/zip_temp"
+    mkdir -p "$zip_temp_dir/node_modules/$package_name"
+    
+    # Move extracted contents to zip_temp_dir
+    mv "$extract_temp_dir/package"/* "$zip_temp_dir/node_modules/$package_name"
+    
+    # Create a zip file
+    (cd "$zip_temp_dir" && zip -r "$zip_file_name" .)
+    
+    # Determine target zip file name
+    if [ -n "$closest_match" ]; then
+        target_zip_file_name="$closest_match"
+    else
+        target_zip_file_name="$target_zip_path"
+    fi
+    
+    # Move the zip file to yarn cache
+    mv "$zip_temp_dir/$zip_file_name" "$target_zip_file_name"
+    
+    # Clean up temporary directories
+    rm -r "$extract_temp_dir"
+    rm -r "$zip_temp_dir"
+    rm "$directory/$tgz_file_name"
+
+    echo "Package compressed and moved to $target_zip_file_name"
+fi

@@ -44,15 +44,15 @@ cask "font-awesome-terminal-fonts"
 
 cask "1password"
 cask "iterm2"
+cask "warp"
 cask "google-chrome"
-cask "visual-studio-code"
+cask "cursor"
 cask "slack"
 cask "discord"
 cask "docker"
 cask "notion"
 cask "spectacle"            # App to easily resize and organize windows
 cask "alfred"               # Best productivity tool ever?
-cask "charles"              # Proxy app, very useful for debugging in prod
 cask "firefox"
 cask "postman"
 cask "spotify"

@@ -12,57 +12,106 @@
 #   - --dry-run: (Optional) Perform a dry run without actual actions.
 #
 
-dry_run=false
 
-if [ $# -lt 2 ]; then
-    echo "Usage: $0 <directory> <version> [--dry-run]"
+dry_run=false
+version=""
+directory="$1"
+shift
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -v | --version)
+            shift
+            version="$1"
+            ;;
+        -d | --dry-run)
+            dry_run=true
+            ;;
+        *)
+            echo "Unrecognized option: $1"
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [ -z "$directory" ]; then
+    echo "Usage: $0 <directory> [-v <version>] [--dry-run]"
     exit 1
 fi
-
-directory="$1"
-version="$2"
-shift 2
 
 if [ ! -d "$directory" ]; then
     echo "Error: Directory '$directory' not found."
     exit 1
 fi
 
-if [ "$1" = "--dry-run" ]; then
-  dry_run=true
-  shift
-fi
 
 package_name=$(grep '"name":' "$directory/package.json" | sed -E 's/.*"name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
+parsed_package_name="${package_name//\//-}-npm"
+yarn_cache_dir="$HOME/.yarn/berry/cache"
 
 if [ -z "$package_name" ]; then
     echo "Error: Could not extract package name from package.json."
     exit 1
 fi
 
+# If version is not provided, find the closest matching zip files in yarn cache
+if [ -z "$version" ]; then
+    echo "No version specified. Finding closest matching version in Yarn cache."
+    existing_zip_files=("$yarn_cache_dir/$parsed_package_name"-*.zip)
+    closest_match=""
+    last_modified=0
+
+    for existing_file in "${existing_zip_files[@]}"; do
+        if [ -f "$existing_file" ]; then
+            file_modified=$(date -r "$existing_file" +%s)
+            if [ "$file_modified" -gt "$last_modified" ]; then
+                closest_match="$existing_file"
+                last_modified=$file_modified
+            fi
+        fi
+    done
+
+    if [ -z "$closest_match" ]; then
+        echo "No matching version found in Yarn cache. Please specify a version via the -v flag."
+        exit 1
+    fi
+
+    automatic_version=$(echo "$closest_match" | sed -E 's/.*'$parsed_package_name'-([^\.]+)\.zip/\1/')
+fi
+
+echo $directory
+echo $version
+echo $dry_run
+
 package_name=$(grep '"name":' "$directory/package.json" | sed -E 's/.*"name"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/')
 parsed_package_name="${package_name//\//-}-npm"
 
 tgz_file_name="package.tgz"
-zip_file_name="$parsed_package_name-$version.zip"
 yarn_cache_dir="$HOME/.yarn/berry/cache"
 
-# Find the closest matching zip file name in yarn cache
-existing_zip_files=("$yarn_cache_dir/$parsed_package_name-$version"*.zip)
-closest_match=""
-for existing_file in "${existing_zip_files[@]}"; do
-    if [[ "$existing_file" =~ $parsed_package_name-$version-.*\.zip ]]; then
-        closest_match="$existing_file"
-        break
-    fi
-done
+if [ -z "$automatic_version" ]; then
+    zip_file_name="$parsed_package_name-$version.zip"
+
+    # Find the closest matching zip file name in yarn cache
+    existing_zip_files=("$yarn_cache_dir/$parsed_package_name-$version"*.zip)
+    closest_match=""
+    for existing_file in "${existing_zip_files[@]}"; do
+        if [[ "$existing_file" =~ $parsed_package_name-$version-.*\.zip ]]; then
+            closest_match="$existing_file"
+            break
+        fi
+    done
+else 
+    zip_file_name="$automatic_version"
+fi
 
 if [ "$dry_run" = true ]; then
     echo "Dry run:"
     echo "Package name: $package_name"
     echo "Parsed package name: $parsed_package_name"
-    if [ -n "$closest_match" ]; then
-        echo "Closest matching existing zip: $closest_match"
+    if [ -n "$zip_file_name" ]; then
+        echo "File which will get overwritten: $zip_file_name"
     fi
 else
     # Run yarn pack to generate .tgz file
@@ -101,4 +150,5 @@ else
     rm "$directory/$tgz_file_name"
 
     echo "Package compressed and moved to $target_zip_file_name"
+    echo "Your local changes will be reflected when using yarn dlx $package_name@<version>"
 fi

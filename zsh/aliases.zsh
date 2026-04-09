@@ -62,6 +62,7 @@ alias yi='pkginstall'
 alias yadd='pkgadd'
 alias yaddD='pkgadd -D'
 alias yst='y storybook --ci'
+alias ystt='STORYBOOK_TELEMETRY_DEBUG=1 yst --loglevel=debug'
 alias ybst='y build-storybook'
 alias ys='y start'
 alias yb='y build'
@@ -103,15 +104,15 @@ done
 
 # storybook monorepo specific
 alias ybt='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from install'
-alias yc='yarn --cwd $HOME/open-source/storybook/code nx run-many --target="prep" --all --parallel --max-parallel=9 --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset'
+alias yc='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from=compile'
 alias yci='yarn --cwd $HOME/open-source/storybook/code && yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from=compile'
 alias ycli='nx run-many --target="prep" --parallel --all --exclude="*addon*,*builder*,*react*,*vite*,*webpack*,angular,*web*,vue3,nextjs,html,svelte*,create-storybook,ember,server*,eslint*" -- --reset'
 # alias yc='yarn --cwd $HOME/open-source/storybook/code task --task compile --start-from compile'
-alias repro='$HOME/open-source/storybook/code/lib/cli-storybook/bin/index.cjs repro'
+alias repro='$HOME/open-source/storybook/code/core/dist/bin/dispatcher.js repro'
 alias cst='$HOME/open-source/storybook/code/lib/create-storybook/bin/index.cjs'
-alias sb='$HOME/open-source/storybook/code/lib/cli-storybook/dist/bin/index.js'
+alias sb='$HOME/open-source/storybook/code/core/dist/bin/dispatcher.js'
 alias sbinternal='node $HOME/open-source/storybook/code/core/dist/cli/bin/index.cjs'
-alias sbx='yarn exec $HOME/open-source/storybook/code/lib/cli/bin/index.cjs'
+alias sbx='yarn exec $HOME/open-source/storybook/code/core/dist/bin/dispatcher.js'
 alias build='yarn --cwd $HOME/open-source/storybook/code build'
 alias buildd='yarn --cwd $HOME/open-source/storybook/code build core-server core-events cli telemetry "$1" --watch'
 alias buildw='yarn --cwd $HOME/open-source/storybook/code build --watch'
@@ -119,6 +120,7 @@ alias sandbox='sandbox_func() { yarn --cwd $HOME/open-source/storybook/code task
 
 alias gpll='git pull origin $(git rev-parse --abbrev-ref HEAD)'
 alias gpo='git push origin $(git rev-parse --abbrev-ref HEAD)'
+alias ginit='git init && git add . && git commit -m "init"'
 
 # needs update in task command to work. e.g. support --template cra-default-js instead of cra/default-js
 alias e2e="yarn --cwd $HOME/open-source/storybook/code task --task sandbox --debug --template `pwd | sed -e 's/\/.*\///g'`"

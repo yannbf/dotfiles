@@ -85,3 +85,6 @@ function canary() {
   # Watch only this specific run
   gh run watch $run_id --repo storybookjs/storybook
 }
+
+  # Alias to open the PR associated with the current branch in the browser
+  alias open-pr='branch=$(git rev-parse --abbrev-ref HEAD); pr=$(gh pr list --head "$branch" --limit 1 --json number -q ".[0].number"); if [[ -n "$pr" ]]; then gh pr view "$pr" --web; else echo "No PR found for branch '$branch'."; fi'

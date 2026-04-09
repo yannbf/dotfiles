@@ -5,11 +5,6 @@
 # Tap sources
 # ================
 tap "github/gh"
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
-tap "homebrew/core"
 
 # install brew formulae
 brew "svn"
@@ -17,6 +12,7 @@ brew "ack"
 brew "mas"
 brew "cocoapods"
 brew "gh"
+brew "fnm"
 brew "fzf"
 brew "git-flow"
 brew "bat"
@@ -48,12 +44,15 @@ cask "1password"
 cask "iterm2"
 cask "warp"
 cask "google-chrome"
+cask "raycast"
 cask "cursor"
+cask "tuple"
 cask "slack"
 cask "discord"
-cask "docker"
+cask "discord"
+cask "docker-desktop"
 cask "notion"
-cask "spectacle"            # App to easily resize and organize windows
+cask "notion-calendar"
 cask "alfred"               # Best productivity tool ever?
 cask "firefox"
 cask "postman"

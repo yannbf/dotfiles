@@ -1,6 +1,7 @@
 # shortcut to this dotfiles path is $ZSH
 export ZSH=$HOME/.dotfiles
 
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/Dev
@@ -79,3 +80,4 @@ for f in $(compaudit);do sudo chmod -R 755 $f;done
 # Add N installation folder to .n
 export N_PREFIX=$HOME/.n
 export PATH=$N_PREFIX/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"

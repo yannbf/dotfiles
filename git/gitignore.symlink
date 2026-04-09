@@ -1,6 +1,5 @@
 .DS_Store
 *~
 *.swp
-.vscode
 
 *storybook.log

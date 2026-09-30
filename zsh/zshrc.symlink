@@ -1,5 +1,7 @@
-# shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
+# shortcut to this dotfiles path is $DOTFILES
+export DOTFILES=$HOME/.dotfiles
+# export STORYBOOK_TELEMETRY_URL=http://localhost:6007/event-log
+export FIX_ON_COMMIT=true
 
 eval "$(fnm env --use-on-cd --shell zsh)"
 
@@ -36,7 +38,7 @@ fi
 
 # all of our zsh files
 typeset -U config_files
-config_files=($ZSH/**/*.zsh)
+config_files=($DOTFILES/**/*.zsh)
 
 # load the path files
 for file in ${(M)config_files:#*/path.zsh}
@@ -50,9 +52,21 @@ do
   source $file
 done
 
-# initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
+# load oh-my-zsh with a cached compinit for fast startup
+ZSH_DISABLE_COMPFIX=true
+export ZSH=$HOME/.dotfiles/.oh-my-zsh
+# Override compinit temporarily so oh-my-zsh uses cache (-C) instead of full rebuild
+# Full rebuild runs once per day via the fallback below
+if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
+  # dump is older than 24h — let oh-my-zsh do a full compinit
+  source $ZSH/oh-my-zsh.sh
+else
+  # dump is fresh — stub compinit with cached version during oh-my-zsh load
+  autoload -U compinit
+  function compinit { builtin autoload -U compinit; builtin compinit -C "$@" }
+  source $ZSH/oh-my-zsh.sh
+  unfunction compinit 2>/dev/null
+fi
 
 # load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}
@@ -70,12 +84,6 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
-
-export ZSH=$HOME/.dotfiles/.oh-my-zsh
-source $ZSH/oh-my-zsh.sh
-
-# Fix compaudit message
-for f in $(compaudit);do sudo chmod -R 755 $f;done
 
 # Add N installation folder to .n
 export N_PREFIX=$HOME/.n

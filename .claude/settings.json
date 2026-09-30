@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(command -v starship)",
+      "Bash(command -v zoxide)",
+      "Bash(/usr/bin/time zsh:*)",
+      "Bash(zsh -c ':*)"
+    ]
+  }
+}
